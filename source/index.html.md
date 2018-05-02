@@ -6,8 +6,8 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 toc_footers:
   - <a href='https://api.zaui.io/signup'>Sign Up for a Developer Key</a>
-
-
+  - <a href='#'>See our Web API Documentation</a>
+  -<a href='#'>See our Webhook and Remote Target Documentation</a>
 
 search: true
 ---
@@ -22,7 +22,9 @@ We have language bindings in Shell, Ruby, and Python! You can view code examples
 
 To ensure continuous quality of service, API usage can be subjected to throttling. The throttle will be applied once an API client reaches a certain threshold.
 Zaui Software reserves the right to throttle any and all API clients to ensure quality of service for all Zaui Software customers.
+
 Those clients who do encounter a throttle threshold will get met with a HTTP 503 response code and the error XML node populated.
+
 We encourage all API developers to anticipate this error and take appropriate measures like:
 • using a cached value from a previous call, or
 • passing on a message to the end user that is subjected to this behavior (if any)
@@ -921,6 +923,17 @@ The booking cancellation request allows your implementation to cancel previously
 | Status | TransactionStatus | Status of the transition. Options are:<br>**CONFIRMED**<br> **REJECTED** |
 | RejectionReasonDetails | TransactionStatus | Extended details on the transaction rejection |
 | RejectionReason | TransactionStatus | Reason transaction was rejected. Options are: <br> **PAST_CANCEL_DATE** - Allowed cancellation date is in the past. <br> **PAST_TOUR_DATE** - Tour date is in the past.<br> **TOUR_REDEEMED** - Tour has al- ready been redeemed.<br> **OTHER** - Any other reason. Details must be provided in RejectionReasonDetails. |
+
+# HTTP Status Codes
+
+| Code | Reason | Description | Recommended Action |
+| ---- | ------ | ----------- | ------------------ |
+| 200 | Status OK | Request executed without error | None |
+| 400 | Bad Request | Invalid Request | Check for malformed XML |
+| 401 | Unauthorized | Authentication for the request has failed | Check the required authentication requirements. |
+| 404 | Not Found | Requested API routine is not an implemented method | Check the naming of the inbound request |
+| 503 | Unavailable | Throttle rate limit has been exceeded | Retry using exponential backoff. You need to slow down the rate at which you are sending requests. |
+
 # Legal
 
 ## LEGAL STATEMENT
