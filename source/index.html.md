@@ -25,10 +25,10 @@ Zaui Software reserves the right to throttle any and all API clients to ensure q
 
 Those clients who do encounter a throttle threshold will get met with a HTTP 503 response code and the error XML node populated.
 
-We encourage all API developers to anticipate this error and take appropriate measures like:
-• using a cached value from a previous call, or
-• passing on a message to the end user that is subjected to this behavior (if any)
-• implement exponential back-off in your logic (see below) Before starting, anyone organization wishing to use this API, must have been provided authentication credentials.
+We encourage all API developers to anticipate this error and take appropriate measures like:<br>
+• Using a cached value from a previous call
+<br>• Passing on a message to the end user that is subjected to this behavior (if any)
+<br>• Implement exponential back-off in your logic (see below) <br>Before starting, anyone organization wishing to use this API, must have been provided authentication credentials.
 
 # Authentication Credentials
 
@@ -39,6 +39,7 @@ Credentials for the API can be obtained by signing up, for free, on our website:
 # Test Supplier System
 
 During your development and testing phases, and prior to connecting to live suppliers, you are welcome to use the test supplier ID for all your API calls: Test supplier ID = 200
+
 This supplier has various tours and activities available for you to integrate your test environment with.
 
 Should you need to see a specific activity type in this system, which is not present, please contact our support staff at support@zaui.com
@@ -65,13 +66,12 @@ s="CURRENT" >
 </version>
 ```
 
-All API request to the Zaui.io platform must be sent using an HTTPS POST
-using the following URI:
+All API request to the Zaui.io platform must be sent using an HTTPS POST using the following URI:
 
-Each response consists of an object with the following properties:
-• HTTP response status code: The status code of the HTTP response. This does match the header
-value of the response, unless suppress_response_codes=true was sent (see below). For a list of
-suppress_response_codes=true valid response codes, see the appendix at the close of this document. • XML data payload: The result data will always return XML
+All API access is over HTTPS and accessed from the https://api.zaui.io/v1/ domain.
+
+Each response consists of an object with the following properties:<br>
+**• HTTP response status code:** The status code of the HTTP response. This does match the header value of the response, unless suppress_response_codes=true was sent (see below). For a list of suppress_response_codes=true valid response codes, see the appendix at the close of this document. <br>**• XML data payload:** The result data will always return XML
 
 ### Suppressing HTTP Response codes
 
@@ -83,39 +83,41 @@ is then available within the response body.
 
 ### Implementing Exponential Back-off
 
-Exponential back-off is the process of a client periodically retrying a failed request over an increasing amount of time. It is a standard error handling strategy for network applications. Besides being “required”, using exponential back-off increases the efficiency of bandwidth usage, reduces the number of requests required to get successful response, and maximizes the throughput of requests in concurrent environments.
+Exponential back-off is the process of a client periodically retrying a failed request over an increasing amount of time. *It is a standard error handling strategy for network applications.* Besides being “required”, using exponential back-off increases the efficiency of bandwidth usage, reduces the number of requests required to get successful response, and maximizes the throughput of requests in concurrent environments.
 The flow of implementing a simple exponential back-off is as follows:
 
 1.  Make a request to the API
-2.  Receive the response, check for error that has a retry-able error code (such as 503)
+2.  Receive the response, check for error that **has a retry-able error code (such as 503)**
 3.  Wait 1s + random_number_milliseconds seconds
 4.  Retry request
-5.  Receive the response, check for error that has a retry-able error code (such as 503)
+5.  Receive the response, check for error that **has a retry-able error code (such as 503)**
 6.  Wait 2s + random_number_milliseconds seconds
 7.  Retry request
-8.  Receive the response, check for error that has a retry-able error code (such as 503)
+8.  Receive the response, check for error that **has a retry-able error code (such as 503)**
 9.  Wait   seconds
 10. Retry request
-11. Receive the response, check for error that has a retry-able error code (such as 503)
+11. Receive the response, check for error that **has a retry-able error code (such as 503)**
 12. Wait 8s + random_number_milliseconds seconds
 13. Retry request
-14. Receive the response, check for error that has a retry-able error code (such as 503)
+14. Receive the response, check for error that **has a retry-able error code (such as 503)**
 15. Wait 16s + random_number_milliseconds seconds
 16. Retry request
 17. If you still get an error, stop and log the error
 
-**Note:** _random_number_milliseonds MUST be redefined after each “Wait”_
+**Note:** _random_number_milliseconds MUST be redefined after each “Wait”_
 
 In the above flow, random_number_milliseconds is a random number of milliseconds less than or equal to 1000. This is necessary to avoid certain lock errors in some concurrent implementations.
 
 **Note:** _the wait is always (2^n) + random_number_milliseconds, where n is a mono-tonically increasing integer initially defined as 0. N is incremented by 1 for each iteration (each request)_
+
+The algorithm is set to terminate when n == 5. This ceiling is in place to prevent clients from retrying infinitely, and results in a total delay of 32 seconds before a deemed “unrecoverable error”.
 
 # API Function Definitions
 
 ## Required Authentication Variables
 
 While we have outlined each of the request and response API calls, its important to know that you must
-submit through your ResellerID, destination SupplierId and APIKey with every API request to our systems.
+submit through your *ResellerID*, destination *SupplierId* and *APIKey* with every API request to our systems.
 
 ## Activity List Requests
 
@@ -146,13 +148,9 @@ It is the responsibility of any integration to store the unique activity codes f
 | TimeStamp                      | ActivityListRequest | Time of creation request YYYY-MM-DDTHH:MM:SS.SSSZ(in utc time) or YYYY-MM-DDTHH:MM:SS.SSS[+/-]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) |             |
 | 2013-04-28T13:10:12.123+10:00 | Mandatory           |                                                                                                                                                       |             |
 
-**Note:** _Your implementation must store the returned activity codes for future calls,
-where required. The ActivityListRequest should be called periodically, since the
-supplier can update the available activities on the Zaui IO channels anytime, poten-
-tially making your stored activity codes stale._
+**Note:** _Your implementation must store the returned activity codes for future calls, where required. The ActivityListRequest should be called periodically, since the supplier can update the available activities on the Zaui IO channels anytime, potentially making your stored activity codes stale._
 
-**Note:** _Depending on the number of allowed activities that the supplier your com- municating with has provided for you, the data size on this call back can be large.
-As a result, it’s not uncommon to see this callback having a large data set. This call can often take up to 30 seconds to complete._
+**Note:** _Depending on the number of allowed activities that the supplier your communicating with has provided for you, the data size on this call back can be large. As a result, it’s not uncommon to see this callback having a large data set. This call can often take up to 30 seconds to complete._
 
 ## Activity List Response
 
@@ -346,7 +344,7 @@ This API call provisions for requesting availability by specifying a specific da
 | Total | TravellerMix | | Optional |
 
 
-**Note:** *Requests for availability can be requested no further than 120 days out. Availability for historical dates are not permitted. Transportation based supplier products may require that you send through the proper pickup and dropoff supplier location codes.*
+**Note:** _Requests for availability can be requested no further than 120 days out. Availability for historical dates are not permitted. Transportation based supplier products may require that you send through the proper pickup and dropoff supplier location codes._
 
 ## Check Availability Response
 
@@ -502,8 +500,8 @@ The batch availability request allows you to determine availability in large sca
 | SupplierProductCode | BatchCheckAvailabilityRequest | The unique product code for the supplier | Mandatory |
 
 
-**Note:** *Requests for batch availability can be requested no further than 120 days out. Batch Availability for historical dates are not permitted.
-Dates ranges between the StartDate and EndDate cannot be more then 120 days.*
+**Note:** _Requests for batch availability can be requested no further than 120 days out. Batch Availability for historical dates are not permitted.
+Dates ranges between the StartDate and EndDate cannot be more then 120 days._
 
 ## Batch Check Availability Response
 
