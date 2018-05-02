@@ -876,7 +876,51 @@ The booking cancellation request allows your implementation to cancel previously
 | Reason | BookingCancelRequest | String holding the reason for cancellation | Mandatory |
 | SupplierNote | BookingCancelRequest | String holding any additional notes about the cancellation | Mandatory |
 
+## Booking Cancel Response
 
+> Example Booking Cancel Response
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BookingCancelResponse  xmlns="https://api.zaui.io/api/01">
+ <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
+ <ResellerId>2005</ResellerId>
+ <SupplierId>200</SupplierId>
+ <ExternalReference>10051374722992616</ExternalReference>
+ <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
+ <RequestStatus>
+   <Status>SUCCESS</Status>
+ </RequestStatus>
+ <BookingReference>999999999</BookingReference>
+ <SupplierConfirmationNumber>1236578</SupplierConfirmationNumber>
+<SupplierCancellationNumber>CANCEL78910</SupplierCancellationNumber>
+ <TransactionStatus>
+   <Status>CONFIRMED</Status>
+ </TransactionStatus>
+</BookingCancelResponse>
+```
+| XML Node | Parent Node | Description |
+| -------- | ----------- | ----------- |
+| BookingCancelResponse | | Root node |
+| ApiKey | BookingCancelResponse | Your unique API KEY |
+| ResellerId | BookingCancelResponse | |
+| SupplierId | BookingCancelResponse | |
+| ExternalReference | BookingCancelResponse | String representing a unique transaction ID. Used to identify your original request. |
+| TimeStamp | BookingCancelResponse | Time of creation of request YYYY-MM- DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 |
+| RequestStatus | BookingCancelResponse | Request status root XML element |
+| Status | RequestStatus | Status value for the request. Values are: <br> **SUCCESS**<br>**ERROR** |
+| Error | RequestStatus | Root node for the error details on a non-successful request |
+| ErrorCode | Error | String with the error code |
+| ErrorMessage | Error | String with the error message |
+| ErrorDetails | Error | String with additional details, and recommendation on error |
+| BookingReference | BookingCancelResponse | String containing the unique booking reference from your system. |
+| SupplierConfirmationNumber | BookingCancelResponse| String holding the original unique supplier confirmation number.  |
+| SupplierCancellationNumber | BookingCancelResponse | String holding the unique cancellation number |
+| TransactionStatus | BookingCancelResponse | Root node that holds data on the transaction |
+| Status | TransactionStatus | Status of the transition. Options are:<br>**CONFIRMED**<br> **REJECTED** |
+| RejectionReasonDetails | TransactionStatus | Extended details on the transaction rejection |
+| RejectionReason | TransactionStatus | Reason transaction was rejected. Options are: <br> **PAST_CANCEL_DATE** - Allowed cancellation date is in the past. <br> **PAST_TOUR_DATE** - Tour date is in the past.<br> **TOUR_REDEEMED** - Tour has al- ready been redeemed.<br> **OTHER** - Any other reason. Details must be provided in RejectionReasonDetails. |
 # Legal
 
 ## LEGAL STATEMENT
