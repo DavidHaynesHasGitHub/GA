@@ -127,11 +127,11 @@ submit through your *ResellerID*, destination *SupplierId* and *APIKey* with eve
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ActivityListRequest  xmlns="https://api.zaui.io/api/01">
-   <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
-   <ResellerId>2005</ResellerId>
-   <SupplierId>200</SupplierId>
-   <ExternalReference>10051374722994001</ExternalReference>
-   <Timestamp>2015-01-10T13:30:54.616+10:00</Timestamp>
+  <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
+  <ResellerId>2005</ResellerId>
+  <SupplierId>200</SupplierId>
+  <ExternalReference>10051374722994001</ExternalReference>
+  <Timestamp>2015-01-10T13:30:54.616+10:00</Timestamp>
 </ActivityListRequest>
 ```
 
@@ -161,61 +161,61 @@ It is the responsibility of any integration to store the unique activity codes f
 <?xml version="1.0" encoding="UTF-8"?>
 
 <ActivityListResponse  xmlns="https://api.zaui.io/api/01" >
- <APIKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</APIKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722994001</ExternalReference>
- <Timestamp>2015-12-10T13:30:54.616+10:00</Timestamp>
- <RequestStatus>
-         <Status>SUCCESS</Status>
- </RequestStatus>
- <Tour>
-         <SupplierProductCode>ACT_1765</SupplierProductCode>
-<SupplierProductName>Zip line Adventure</SupplierProductName>
-<TourDepartureTime>09:00:00</TourDepartureTime>
-<TourDuration>PT1D</TourDuration>
-<CountryCode>USA</CountryCode>
-<DestinationCode>WA</DestinationCode>
-<DestinationName>Washington</DestinationName>
-<TourDescription>Zip line Adventure that will blow your mind</TourDescription>
-<TourOption>
-        <SupplierOptionCode>ACT_1765</SupplierOptionCode>
-        <SupplierOptionName>Zip line</SupplierOptionName>
-        <TourDepartureTime>09:00:00</TourDepartureTime>
-        <TourDuration>PT1D</TourDuration>
-      </TourOption>
-<PickupLocation>
-        <SupplierPickupCode>202</SupplierPickupCode>
-        <SupplierPickupName>Hilton</SupplierPickupName>
-</PickupLocation>
-<DropoffLocation>
-        <SupplierPickupCode>309</SupplierPickupCode>
-        <SupplierPickupName>Airport – Terminal 2</SupplierPickupName>
-</DropoffLocation>
+<APIKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</APIKey>
+<ResellerId>2005</ResellerId>
+<SupplierId>200</SupplierId>
+<ExternalReference>10051374722994001</ExternalReference>
+<Timestamp>2015-12-10T13:30:54.616+10:00</Timestamp>
+<RequestStatus>
+  <Status>SUCCESS</Status>
+</RequestStatus>
+<Tour>
+  <SupplierProductCode>ACT_1765</SupplierProductCode>
+  <SupplierProductName>Zip line Adventure</SupplierProductName>
+  <TourDepartureTime>09:00:00</TourDepartureTime>
+  <TourDuration>PT1D</TourDuration>
+  <CountryCode>USA</CountryCode>
+  <DestinationCode>WA</DestinationCode>
+  <DestinationName>Washington</DestinationName>
+  <TourDescription>Zip line Adventure that will blow your mind</TourDescription>
+  <TourOption>
+    <SupplierOptionCode>ACT_1765</SupplierOptionCode>
+    <SupplierOptionName>Zip line</SupplierOptionName>
+    <TourDepartureTime>09:00:00</TourDepartureTime>
+    <TourDuration>PT1D</TourDuration>
+  </TourOption>
+  <PickupLocation>
+    <SupplierPickupCode>202</SupplierPickupCode>
+    <SupplierPickupName>Hilton</SupplierPickupName>
+  </PickupLocation>
+  <DropoffLocation>
+    <SupplierPickupCode>309</SupplierPickupCode>
+    <SupplierPickupName>Airport – Terminal 2</SupplierPickupName>
+  </DropoffLocation>
 </Tour>
 <Tour>
-<SupplierProductCode>ACT_1765</SupplierProductCode>
-<SupplierProductName>Zip line Adventure</SupplierProductName>
-<TourDepartureTime>09:30:00</TourDepartureTime>
-<TourDuration>PT1D</TourDuration>
-<CountryCode>USA</CountryCode>
-<DestinationCode>WA</DestinationCode>
-<DestinationName>Washington</DestinationName>
-<TourDescription>Zip line Adventure that will blow your mind</TourDescription>
-<TourOption>
-       <SupplierOptionCode>ACT_1765</SupplierOptionCode>
-       <SupplierOptionName>Zip line</SupplierOptionName>
-       <TourDepartureTime>09:30:00</TourDepartureTime>
-       <TourDuration>PT1D</TourDuration>
-</TourOption>
-<PickupLocation>
-         <SupplierPickupCode>202</SupplierPickupCode>
-         <SupplierPickupName>Hilton</SupplierPickupName>
-</PickupLocation>
-<DropoffLocation>
-         <SupplierPickupCode>309</SupplierPickupCode>
-         <SupplierPickupName>Airport – Terminal 2</SupplierPickupName>
-</DropoffLocation>
+  <SupplierProductCode>ACT_1765</SupplierProductCode>
+  <SupplierProductName>Zip line Adventure</SupplierProductName>
+  <TourDepartureTime>09:30:00</TourDepartureTime>
+  <TourDuration>PT1D</TourDuration>
+  <CountryCode>USA</CountryCode>
+  <DestinationCode>WA</DestinationCode>
+  <DestinationName>Washington</DestinationName>
+  <TourDescription>Zip line Adventure that will blow your mind</TourDescription>
+  <TourOption>
+  <SupplierOptionCode>ACT_1765</SupplierOptionCode>
+  <SupplierOptionName>Zip line</SupplierOptionName>
+  <TourDepartureTime>09:30:00</TourDepartureTime>
+  <TourDuration>PT1D</TourDuration>
+  </TourOption>
+  <PickupLocation>
+  <SupplierPickupCode>202</SupplierPickupCode>
+  <SupplierPickupName>Hilton</SupplierPickupName>
+  </PickupLocation>
+  <DropoffLocation>
+  <SupplierPickupCode>309</SupplierPickupCode>
+  <SupplierPickupName>Airport – Terminal 2</SupplierPickupName>
+  </DropoffLocation>
 </Tour>
 </TourListResponse >
 
