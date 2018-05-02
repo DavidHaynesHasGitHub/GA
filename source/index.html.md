@@ -2,7 +2,8 @@
 title: Zaui IO API
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - XML
+  - XML Examples
+  - JSs
 
 toc_footers:
   - <a href='https://api.zaui.io/signup'>Sign Up for a Developer Key</a>
@@ -57,13 +58,12 @@ X-Powered-By: PHP/5.4.35
 Vary: Accept-Encoding Content-Length: 411
 Content-Type: text/xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<version xmlns="http://www.zaui.io/api" xmlns:atom="http://www.w3.org/2005/Atom" id="v1" statu
-s="CURRENT" >
-   <media-types>
-      <media-type base="application/xml" type="application/xml;version=v1"/>
-   </media-types>
-   <atom:link rel="self" href="https://api.zaui.io/v1"/>
-   <atom:link rel="describedby" href="http://www.zaui.io/api/v1"/>
+<version xmlns="http://www.zaui.io/api" xmlns:atom="http://www.w3.org/2005/Atom" id="v1" status="CURRENT" >
+  <media-types>
+    <media-type base="application/xml" type="application/xml;version=v1"/>
+  </media-types>
+  <atom:link rel="self" href="https://api.zaui.io/v1"/>
+  <atom:link rel="describedby" href="http://www.zaui.io/api/v1"/>
 </version>
 ```
 
@@ -159,6 +159,7 @@ It is the responsibility of any integration to store the unique activity codes f
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
+
 <ActivityListResponse  xmlns="https://api.zaui.io/api/01" >
  <APIKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</APIKey>
  <ResellerId>2005</ResellerId>
@@ -217,6 +218,7 @@ It is the responsibility of any integration to store the unique activity codes f
 </DropoffLocation>
 </Tour>
 </TourListResponse >
+
 ```
 
 The ActivityListResponse will contain the details for all the activities that the supplier has made available for you to pull across through the Zaui IO API.

@@ -1,9 +1,9 @@
 //= require ../lib/_jquery
 //= require ../lib/_imagesloaded.min
-;(function () {
+(function () {
   'use strict';
 
-  var htmlPattern = /<[^>]*>/g;  
+  var htmlPattern = /<[^>]*>/g;
   var loaded = false;
 
   var debounce = function(func, waitTime) {
@@ -116,4 +116,4 @@
   }
 
   window.loadToc = loadToc;
-})();
+}());
