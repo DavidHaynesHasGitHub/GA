@@ -834,6 +834,49 @@ The booking amendment request allows you to submit amendments to existing bookin
 | RejectionReasonDetails | TransactionStatus | Extended details on the transaction rejection |
 | RejectionReason | TransactionStatus | Reason transaction was rejected. Options are: <br> **NOT_OPERATING** – Activity not offered on requested date <br> **OTHER** - Any other reason. Details must be provided in RejectionReasonDetails. |
 | SupplierConfirmationNumber | BookingUpdateResponse | String value of the unique supplier confirmation number. This supplier confirmation number is used in all subsequent booking requests to reference the supplier booking number. <br> **NOTE:** the supplier confirmation number must be the number of the original booking request. |
+
+## Booking Cancel Request
+
+> Example Booking Cancel Request
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<BookingUpdateResponse  xmlns="https://api.zaui.io/api/01">
+ <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
+ <ResellerId>2005</ResellerId>
+ <SupplierId>200</SupplierId>
+ <ExternalReference>10051374722992616</ExternalReference>
+ <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
+ <RequestStatus>
+    <Status>SUCCESS</Status>
+ </RequestStatus>
+ <BookingReference>999999999</BookingReference>
+ <TransactionStatus>
+    <Status>CONFIRMED</Status>
+ </TransactionStatus>
+ <SupplierConfirmationNumber>1235458</SupplierConfirmationNumber>
+</BookingUpdateResponse>
+```
+
+The booking cancellation request allows your implementation to cancel previously made bookings, successfully created through your implementation, directly into the supplier system. The API allows cancellation of the booking.
+
+| XML Node | Parent Node | Description | Optionality |
+| -------- | ----------- | ----------- | ----------- |
+| BookingCancelRequest | | Root XML node | Mandatory |
+| ApiKey | BookingCancelRequest | Your unique API KEY | Mandatory |
+| ResellerId | BookingCancelRequest | | Mandatory |
+| SupplierId | BookingCancelRequest | String representing the unique supplier ID within the Zaui Marketplace | Mandatory |
+| ExternalReference | BookingCancelRequest | String representing a unique transaction ID. Used to identify your original request. | Optional |
+| TimeStamp | BookingCancelRequest | Time of creation of request YYYY-MM- DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 | Mandatory |
+| BookingReference | BookingCancelRequest | Unique booking reference | Mandatory |
+| SupplierConfimationNumber | BookingCancelRequest | Supplier confirmation number | Mandatory |
+| CancelDate | BookingCancelRequest | Date the cancellation was made. Must be in the format YYYY-MM- DD
+| Mandatory |
+| Author | BookingCancelRequest | String holding the name of person whom made the cancellation | Mandatory |
+| Reason | BookingCancelRequest | String holding the reason for cancellation | Mandatory |
+| SupplierNote | BookingCancelRequest | String holding any additional notes about the cancellation | Mandatory |
+
+
 # Legal
 
 ## LEGAL STATEMENT
