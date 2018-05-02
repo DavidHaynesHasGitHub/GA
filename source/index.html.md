@@ -7,7 +7,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 toc_footers:
   - <a href='https://api.zaui.io/signup'>Sign Up for a Developer Key</a>
   - <a href='#'>See our Web API Documentation</a>
-  -<a href='#'>See our Webhook and Remote Target Documentation</a>
+  - <a href='#'>See our Webhook and Remote Target Documentation</a>
 
 search: true
 ---
