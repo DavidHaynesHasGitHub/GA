@@ -121,7 +121,7 @@ submit through your *ResellerID*, destination *SupplierId* and *APIKey* with eve
 
 ## Activity List Requests
 
-> Activity List Request
+> Example Activity List Request
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -154,7 +154,7 @@ It is the responsibility of any integration to store the unique activity codes f
 
 ## Activity List Response
 
->Activity List Response
+> Example Activity List Response
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -253,7 +253,7 @@ The ActivityListResponse will contain the details for all the activities that th
 
 ## Check Availability RequestStatus
 
-> Single date Example Request
+> Example Single Date Request
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -283,7 +283,7 @@ The ActivityListResponse will contain the details for all the activities that th
 </CheckAvailabilityRequest>
 ```
 
-> Date Range Example Request
+> Example Date Range Request
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -348,7 +348,7 @@ This API call provisions for requesting availability by specifying a specific da
 
 ## Check Availability Response
 
-> Single Date Example Response
+> Example Single Date Response
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -454,7 +454,7 @@ This API call provisions for requesting availability by specifying a specific da
 
 ## Batch Check Availability Request
 
-> Single Day Example
+> Example Single Day Request
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -469,7 +469,7 @@ This API call provisions for requesting availability by specifying a specific da
 </BatchCheckAvailabilityRequest>
 ```
 
-> Multi Date Example Request
+> Example Multi Date Request
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -505,7 +505,7 @@ Dates ranges between the StartDate and EndDate cannot be more then 120 days._
 
 ## Batch Check Availability Response
 
-> Single Date Example Response
+> Example Single Date Response
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -550,7 +550,7 @@ Dates ranges between the StartDate and EndDate cannot be more then 120 days._
 
 ```
 
-> Date Range Example Response
+> Example Date Range Response
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -706,7 +706,7 @@ Dates ranges between the StartDate and EndDate cannot be more then 120 days._
   <LeadTraveller>true</LeadTraveller>
 </Traveller>
 <TravellerMix>
-  <Senior>0</Senior
+  <Senior>0</Senior>
     <Adult>1</Adult>
    <Child>0</Child>
    <Student>0</Student>
@@ -723,8 +723,7 @@ Dates ranges between the StartDate and EndDate cannot be more then 120 days._
 <PickupPoint>Hilton</PickupPoint>
 <SupplierNote>Change to number of travellers. Customer reimbursed.</SupplierNote>
 <AdditionalRemarks>
-         <Remark>Additional charges for large luggage may apply. To be advised at pickup.</Rem
-ark>
+         <Remark>Additional charges for large luggage may apply. To be advised at pickup.</Remark>
  </AdditionalRemarks>
  <ContactDetail>
     <ContactType>MOBILE</ContactType>
