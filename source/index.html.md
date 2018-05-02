@@ -12,7 +12,9 @@ toc_footers:
 search: true
 ---
 
-# Introduction
+# Zaui Software IO API
+
+## Introduction
 
 Zaui.io is an XML API based messaging platform designed for resellers, developers or anyone wanting access to real-time inventory from any suppliers within the Zaui supplier market place.
 
@@ -45,7 +47,6 @@ This supplier has various tours and activities available for you to integrate yo
 Should you need to see a specific activity type in this system, which is not present, please contact our support staff at support@zaui.com
 
 # Submitting to the API
-
 > All API access is over HTTPS and accessed from the <https://api.zaui.io/v1/> domain.
 
 ```xml
