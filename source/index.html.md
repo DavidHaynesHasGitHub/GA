@@ -1,78 +1,182 @@
 ---
-title: Zaui IO API
+title: Google Analytics Setup
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - XML Examples
-  - JSs
+  - html
 
 toc_footers:
   - <a href='https://api.zaui.io/signup'>Sign Up for a Developer Key</a>
   - <a href='#'>See our Web API Documentation</a>
+  - <a href='#'>See our IO API Documentation</a>
   - <a href='#'>See our Webhook and Remote Target Documentation</a>
 
 search: true
 ---
 
-# Zaui Software IO API
+# Google Analytics & Zaui
 
 ## Introduction
 
-Zaui.io is an XML API based messaging platform designed for resellers, developers or anyone wanting access to real-time inventory from any suppliers within the Zaui supplier market place.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Google Analytics provides deep and meaningful insights into how your customers are interacting with your website. How they found you, what they do when they get there, what the user flow is and what areas of the sales funnel they fall off are some of the many pieces of information that can be critical to your business. The following is basic instructions on how to ensure your Google Analytics (‘GA’) is configured properly. This is by no means a comprehensive list of everything you should do with Google Analytics and further personal research and effort in configuring your GA Filters, Goals and Funnels is encouraged.
 
-# API Throttle
+# Google Analytics
 
-To ensure continuous quality of service, API usage can be subjected to throttling. The throttle will be applied once an API client reaches a certain threshold.
-Zaui Software reserves the right to throttle any and all API clients to ensure quality of service for all Zaui Software customers.
+> Google Analytic Script with Cross Domain Linking and Enhanced Ecommerce activated
 
-Those clients who do encounter a throttle threshold will get met with a HTTP 503 response code and the error XML node populated.
-
-We encourage all API developers to anticipate this error and take appropriate measures like:<br>
-• Using a cached value from a previous call
-<br>• Passing on a message to the end user that is subjected to this behavior (if any)
-<br>• Implement exponential back-off in your logic (see below) <br>Before starting, anyone organization wishing to use this API, must have been provided authentication credentials.
-
-# Authentication Credentials
-
-All API calls are authenticated. To obtain your login credentials, please visit www.zaui.io, use our automated reseller sign up to obtain your login credentials. Credentials will be your reseller, or developer, ID and your authentication token, and destination supplier ID.
-
-Credentials for the API can be obtained by signing up, for free, on our website: <https://api.zaui.io/signup>
-
-# Test Supplier System
-
-During your development and testing phases, and prior to connecting to live suppliers, you are welcome to use the test supplier ID for all your API calls: Test supplier ID = 200
-
-This supplier has various tours and activities available for you to integrate your test environment with.
-
-Should you need to see a specific activity type in this system, which is not present, please contact our support staff at support@zaui.com
-
-# Submitting to the API
-> All API access is over HTTPS and accessed from the <https://api.zaui.io/v1/> domain.
-
-```xml
-$ curl -ki https://api.zaui.io/v1/
-HTTP/1.1 200 OK
-Date: Wed, 07 Jan 2015 00:12:51 GMT Server: Apache
-X-Powered-By: PHP/5.4.35
-Vary: Accept-Encoding Content-Length: 411
-Content-Type: text/xml
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<version xmlns="http://www.zaui.io/api" xmlns:atom="http://www.w3.org/2005/Atom" id="v1" status="CURRENT" >
-  <media-types>
-    <media-type base="application/xml" type="application/xml;version=v1"/>
-  </media-types>
-  <atom:link rel="self" href="https://api.zaui.io/v1"/>
-  <atom:link rel="describedby" href="http://www.zaui.io/api/v1"/>
-</version>
+```html
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-XXXXX-Y', 'auto', {allowLinker: true});//replace UA-XXXXX-Y with your GA tracking code
+ga('require', 'linker'); //enables cross domain tracking
+ga('require', 'ec'); //enables enhances ecommerce features
+ga('linker:autoLink', ['source.com', 'destination.com']); //sets the two domains for linking replace source with your domain and destination with the domain for your zaui portal
+ga('send', 'pageview'); //sends data to google
+</script>
+<!-- End Google Analytics -->
 ```
 
-All API request to the Zaui.io platform must be sent using an HTTPS POST using the following URI:
+GA uses a small piece of script that you include on your website than enables powerful analysis of user interactions on your domain. As part of your Zaui membership we configure it for you on our portal taking advantage of GA latest technology. To get the best results it is best if on your website on each page also include the script tag which you can see at this link.
 
-All API access is over HTTPS and accessed from the https://api.zaui.io/v1/ domain.
+# Setup of GA
 
-Each response consists of an object with the following properties:<br>
-**• HTTP response status code:** The status code of the HTTP response. This does match the header value of the response, unless suppress_response_codes=true was sent (see below). For a list of suppress_response_codes=true valid response codes, see the appendix at the close of this document. <br>**• XML data payload:** The result data will always return XML
+Now GA captures an overwhelming amount of data that can be a big battle to be able to sift through and get meaningful insights out of, that is why it is key to create 3 separate “Views”. Views in GA are all the data coming in that has been run through the filters you have applied. Unfortunately once you create a filter, any data that has been filtered out is lost forever within that View. This also means that it is important in the order that you create each filter within the Views.
+
+At minimum you should create three different Views.
+
+## Raw View
+This View is completely unfiltered and just collects all the data that GA script on your site is collecting. This way you will never not have the data you want for your business.
+
+## Test View
+This is the view where you get to experiment with different configurations of filters without disrupting your main View (“Master”) or your Raw Data View. Since filters don’t just hide data but remove it from the View entirely it is a good idea to test configurations before applying them to your main view.
+
+## Master View
+This is the main view for your analytics. Where all your filters will be used to make sure the most relevant information is front and centre.
+
+
+# Enhanced Ecommerce
+
+As part of a new effort on Google they have created a new element to GA called Enhanced Ecommerce (‘EEC’). This feature tracks user information not just from cart information but it is able to follow users through the sales funnel. With the ability to create Goals and Funnels you can see with EEC what products are getting the most attention, when they are leaving your site, how much each area of your site is worth, and much more.
+
+We have already included EEC as part of our script provided in Zaui and if you include the script as linked above on your site it will ensure the most accurate tracking information that GA can provide with cross site linking of your website to the Zaui portal.
+
+
+## Enabling EEC in Google Analytics
+
+Once you have your script added there is a quick configuration step you need to take within your GA dashboard to enable eCommerce and EEC tracking
+
+1. Login to your GA account
+2. On the bottom left click Admin
+3. On the far right under Views click Ecommerce Settings
+4. Enable all three settings Ecommerce, Related Products and Enhanced Ecommerce Reporting.
+5. Repeat for all three Views you have created
+
+
+# Filters
+
+Filters are created to help break down the data into smaller groups. They can be either Account filters or unique to the View you are working in but you can import filters from other Views. The trick with filters however is to keep them General and not to over filter your data.
+
+You create Filters under:
+
+Admin -> Account -> All Filters
+<br>
+Or
+<br>
+Admin -> View -> Filters.
+
+As mentioned earlier, filters are only applicable to future data, not historical and are processed in order so make sure that they are in the proper order for your needs. This is by no means a comprehensive list of filters, just some suggestions.
+
+A few basic filters you should consider are:
+
+## Exclude Internal IP address
+To prevent GA from tracking when you or staff are on your site you want to Exclude Internal IP addresses from your View.
+
+To do so:
+<br>
+1. Admin -> Account -> All Filters
+<br>
+2. Click + Add Filter
+<br>
+3. In the Filter Name Field name it something like: “Exclude Internal IP”
+<br>
+4. Click Filter Type “Predefined”
+<br>
+5. In the three dropdown boxes that appear select
+<br>
+6. Exclude
+<br>
+7. Traffic from the IP addresses
+<br>
+8. That are equal to
+<br>
+9. In a new tab go to Google.com and search “Whats my IP Address”
+<br>
+10. Copy your Public IP Address and paste it into the Filter Pattern Field
+<br>
+11. Select which views that you want to apply this filter to (“Test View”)
+<br>
+12. Click Save to create the filter
+
+## Subdirectory Filter
+Does your website have a blog?
+<br>
+Does the url look like www.yourwebsite.com/blog/2018/may/13
+
+What this will do for GA is that because the URL is unique you will get a different tracking result for each blog post even if you only really care about general performance for your blog or other part of your website. So to fix this you need to create a filter that captures all /blog/ URIs into one “bucket”.
+
+1. Admin -> Account -> All Filters
+<br>
+2. Click + Add Filter
+<br>
+3. Filter Name “Include only Blog Traffic”
+<br>
+4. Filter Type click “Predefined”
+<br>
+5. Include Only
+<br>
+6. Traffic in Subdirectories
+<br>
+7. That Begin With
+<br>
+8. In the Subdirectory field add /blog/
+<br>
+9. Select which views that you want to apply this filter to (“Test View”)
+<br>
+10. Click Save to create the filter
+
+There are many more filters you can build but it isn’t necessary to have lots or any at all to make sure you are getting the most out of your GA. With filters less is more.
+
+## Bot & Spider Filtering
+
+Bots and spiders are many times beneficial to your website as they are regularly used by search engines and other platforms to crawl your website to make sure it is indexed properly. That being said, they aren’t customers so you probably don’t want them in your reports.
+
+To filter bots:
+<br>
+1. Admin -> View
+<br>
+2. Click the checkbox Bot Filtering
+<br>
+3. Save the changes
+
+Filter Order
+As filters are applied in the order that they are added and so it may be necessary to change the order in which they are triggered.
+
+To do so:
+<br>
+1. Admin -> View -> Filter
+<br>
+2. Click “Assign Filter Order”
+<br>
+3. Adjust position with the “move up” or “move down” buttons
+<br>
+4. Click Save
+
+*  As a rule when you have 2 or more filters for a single view pay extra special attention to the order that they are in.
+
 
 ### Suppressing HTTP Response codes
 
@@ -113,826 +217,124 @@ In the above flow, random_number_milliseconds is a random number of milliseconds
 
 The algorithm is set to terminate when n == 5. This ceiling is in place to prevent clients from retrying infinitely, and results in a total delay of 32 seconds before a deemed “unrecoverable error”.
 
-# API Function Definitions
-
-## Required Authentication Variables
-
-While we have outlined each of the request and response API calls, its important to know that you must
-submit through your *ResellerID*, destination *SupplierId* and *APIKey* with every API request to our systems.
-
-## Activity List Requests
-
-> Example Activity List Request
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<ActivityListRequest  xmlns="https://api.zaui.io/api/01">
-  <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
-  <ResellerId>2005</ResellerId>
-  <SupplierId>200</SupplierId>
-  <ExternalReference>10051374722994001</ExternalReference>
-  <Timestamp>2015-01-10T13:30:54.616+10:00</Timestamp>
-</ActivityListRequest>
-```
-
-The **ActivityListRequest** enables pulling a list of available activities and options from the specified supplier. The activity list will include descriptive fields, options, and the specific activity value, to be used on subsequent API calls where a single activity is requested by your implementation.
-
-It is the responsibility of any integration to store the unique activity codes for further API calls, where its required.
-
-| XML Node                       | Parent Node         | Description                                                                                                                                           | Optionality |
-| ------------------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| ActivityListRequest            |                     | Root XML node| Mandatory   |
-| APIKey                         | ActivityListRequest | Your unique API KEY| Mandatory   |
-| ResellerID                     | ActivityListRequest | Your unique reseller ID| Mandatory   |
-| SupplierID                     | ActivityListRequest | Your unique reseller ID| Mandatory   |
-| ExternalReference              | ActivityListRequest | String representing a unique transaction ID. Used to identify your original request.| Optional    |
-| TimeStamp                      | ActivityListRequest | Time of creation request YYYY-MM-DDTHH:MM:SS.SSSZ(in utc time) or YYYY-MM-DDTHH:MM:SS.SSS[+/-]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) |             |
-| 2013-04-28T13:10:12.123+10:00 | Mandatory           |                                                                                                                                                       |             |
-
-**Note:** _Your implementation must store the returned activity codes for future calls, where required. The ActivityListRequest should be called periodically, since the supplier can update the available activities on the Zaui IO channels anytime, potentially making your stored activity codes stale._
-
-**Note:** _Depending on the number of allowed activities that the supplier your communicating with has provided for you, the data size on this call back can be large. As a result, it’s not uncommon to see this callback having a large data set. This call can often take up to 30 seconds to complete._
-
-## Activity List Response
-
-> Example Activity List Response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<ActivityListResponse  xmlns="https://api.zaui.io/api/01" >
-<APIKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</APIKey>
-<ResellerId>2005</ResellerId>
-<SupplierId>200</SupplierId>
-<ExternalReference>10051374722994001</ExternalReference>
-<Timestamp>2015-12-10T13:30:54.616+10:00</Timestamp>
-<RequestStatus>
-  <Status>SUCCESS</Status>
-</RequestStatus>
-<Tour>
-  <SupplierProductCode>ACT_1765</SupplierProductCode>
-  <SupplierProductName>Zip line Adventure</SupplierProductName>
-  <TourDepartureTime>09:00:00</TourDepartureTime>
-  <TourDuration>PT1D</TourDuration>
-  <CountryCode>USA</CountryCode>
-  <DestinationCode>WA</DestinationCode>
-  <DestinationName>Washington</DestinationName>
-  <TourDescription>Zip line Adventure that will blow your mind</TourDescription>
-  <TourOption>
-    <SupplierOptionCode>ACT_1765</SupplierOptionCode>
-    <SupplierOptionName>Zip line</SupplierOptionName>
-    <TourDepartureTime>09:00:00</TourDepartureTime>
-    <TourDuration>PT1D</TourDuration>
-  </TourOption>
-  <PickupLocation>
-    <SupplierPickupCode>202</SupplierPickupCode>
-    <SupplierPickupName>Hilton</SupplierPickupName>
-  </PickupLocation>
-  <DropoffLocation>
-    <SupplierPickupCode>309</SupplierPickupCode>
-    <SupplierPickupName>Airport – Terminal 2</SupplierPickupName>
-  </DropoffLocation>
-</Tour>
-<Tour>
-  <SupplierProductCode>ACT_1765</SupplierProductCode>
-  <SupplierProductName>Zip line Adventure</SupplierProductName>
-  <TourDepartureTime>09:30:00</TourDepartureTime>
-  <TourDuration>PT1D</TourDuration>
-  <CountryCode>USA</CountryCode>
-  <DestinationCode>WA</DestinationCode>
-  <DestinationName>Washington</DestinationName>
-  <TourDescription>Zip line Adventure that will blow your mind</TourDescription>
-  <TourOption>
-  <SupplierOptionCode>ACT_1765</SupplierOptionCode>
-  <SupplierOptionName>Zip line</SupplierOptionName>
-  <TourDepartureTime>09:30:00</TourDepartureTime>
-  <TourDuration>PT1D</TourDuration>
-  </TourOption>
-  <PickupLocation>
-  <SupplierPickupCode>202</SupplierPickupCode>
-  <SupplierPickupName>Hilton</SupplierPickupName>
-  </PickupLocation>
-  <DropoffLocation>
-  <SupplierPickupCode>309</SupplierPickupCode>
-  <SupplierPickupName>Airport – Terminal 2</SupplierPickupName>
-  </DropoffLocation>
-</Tour>
-</TourListResponse >
-
-```
-
-The ActivityListResponse will contain the details for all the activities that the supplier has made available for you to pull across through the Zaui IO API.
-
-| XML Node             | Parent Node          | Description|
-| -------------------- | -------------------- | -----------|
-| ActivityListResponse |                      | Root XML node|
-| APIKey               | ActivityListResponse | Your unique API KEY|
-| ResellerId           | ActivityListResponse | Your unique reseller ID|
-| SupplierId           | ActivityListResponse | String representing the unique supplier ID within the Zaui Marketplace|
-| ExternalReference    | ActivityListResponse | String representing a unique transaction ID. Used to identify your original request.|
-| TimeStamp            | ActivityListResponse | Time of creation of request|
-|                      |                      | YYYY-MM-DDTHH:MM:SS.SSSZ(in utc time) or YYYY-MM-DDTHH:MM:SS.SSS[+/-]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04-28T13:10:12.123+10:00 |
-| RequestStatus        | ActivityListResponse | Request status root XML node, which holds details about the status|
-| Status               | RequestStatus        | Status of the request. **SUCCESS** for a successful transaction, or **ERROR** for unsuccessful transaction. Error XML node will be provided|
-| Error                | RequestStatus        | Error root XML node |
-| ErrorCode            | Error                | The error code|
-| ErrorMessage         | Error                | The error code|
-| ErrorDetails         | Error                | String for the error message|
-| Activity             | ActivityListResponse | Root activity XML node|
-| SupplierProductCode  | Activity             | Suppliers unique product code. This will be used across multiple API calls and should be stored as part of your implementation.|
-| SupplierProductName  | Activity             | String that contains the supplier activity name|
-| TourDescription      | Activity             | Description of the activity as provided by the supplier. |
-| TourDepartureTime    | Activity             | Time of the activity. Values will be in the format of HH:MM:SS |
-| TourDuration         | Activity             | Duration of the activity. Format will be **PnYnMnDTnHnMnS**. Example PT300s (5 mins)|
-| Tour Option          | Activity             | Root XML node that holds details for options on the activity.|
-| SupplierOptionCode   | TourOption           | Duration of the activity option. Duration format **PnYnMnDTnHnMnS** |
-| PickupLocation       | Activity             ||
-| SupplierPickupCode   | PickupLocation       | Supplier pickup ID code|
-| SupplierPickupName   | PickupLocation       | Supplier pickup location name as a string|
-| DropoffLocation      | Activity             ||
-| SupplierDropoffCode  | DropoffLocation      | Supplier dropoff ID code|
-| SupplierDropoffName  | DropoffLocation      | Supplier dropoff location name as a string|
-
-
-## Check Availability RequestStatus
-
-> Example Single Date Request
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<CheckAvailabilityRequest  xmlns="https://api.zaui.io/api/01" >
-  <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
-  <ResellerId>2005</ResellerId>
-  <SupplierId>200</SupplierId>
-  <ExternalReference>10051374722992616</ExternalReference>
-  <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <StartDate>2015-10-31</StartDate>
- <EndDate></EndDate>
- <SupplierProductCode>ACT_1765</SupplierProductCode>
-<TourOptions>
-         <SupplierOptionCode>09:00:00</SupplierOptionCode>
-         <SupplierOptionName>Zip line 9:00 am</SupplierOptionName>
-         <TourDepartureTime>09:00:00</TourDepartureTime>
-         <TourDuration>PT1H</TourDuration>
- </TourOptions>
- <TravellerMix>
-         <Senior>0</Senior>
-         <Adult>1</Adult>
-         <Student>0</Student>
-         <Child>1</Child>
-         <Infant>0</Infant>
-         <Total>2</Total>
- </TravellerMix>
-</CheckAvailabilityRequest>
-```
-
-> Example Date Range Request
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<CheckAvailabilityRequest  xmlns="https://api.zaui.io/api/01" >
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
-<StartDate>2015-10-30</StartDate>
-<EndDate>2015-10-31</EndDate>
-<SupplierProductCode>ACT_1765</SupplierProductCode>
-<TourOptions>
-       <SupplierOptionCode>09:00:00</SupplierOptionCode>
-</TourOptions>
-<TravellerMix>
-        <Senior>0</Senior>
-        <Adult>1</Adult>
-        <Student>0</Student>
-        <Child>1</Child>
-        <Infant>0</Infant>
-        <Total>2</Total>
-</TravellerMix>
-</CheckAvailabilityRequest>
-```
-
-The availability request determines if the requested activity has availability for the specific number of passengers in real-time.
-
-This API call provisions for requesting availability by specifying a specific date, or providing a date range. In either case, the API allows providing tour options optionally.
-
-
-| XML Node | Parent Node | Description | Optionality |
-| -------- | ----------- | ----------- | ----------- |
-| CheckAvailabilityRequest|| Root XML node| Mandatory|
-| APIKey| CheckAvailabilityRequest | Your unique API KEY | Mandatory |
-| ResellerID | CheckAvailabilityRequest || Mandatory |
-| SupplierID | CheckAvailabilityRequest | String representing the unique supplier ID within the Zaui Marketplace| Mandatory |
-| ExternalReference | CheckAvailabilityRequest | String representing a unique transaction ID. Used to identify your original request. | Optional |
-| TimeStamp | CheckAvailabilityRequest | Time of creation of request YYYY-MM-DDTHH:MM:SS.SSSZ(in utc time) or YYYY-MM-DDTHH:MM:SS.SSS[+/-]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04-28T13:10:12.123+10:00 | Mandatory |
-| StartDate | CheckAvailabilityRequest | Date for which to check. Date format: YYYY-MM-DD | Mandatory |
-| EndDate | CheckAvailabilityRequest | Date for which to end checking. Date format: YYYY-MM-DD | Optional |
-| SupplierProductCode | CheckAvailabilityRequest | The unique product code for the supplier | Mandatory |
-| TourOptions | CheckAvailabilityRequest | Tour option root XML node | Optional |
-| SupplierOptionCode | TourOptions | String representing the unique supplier option code | Optional |
-| SupplierOptionName | TourOptions | String representing the supplier option name | Optional |
-| TourDepartureTime | TourOptions | Time of the activity departure and must be in the format of HH:MM:SS | Optional |
-| TourDuration | TourOptions | Option duration, and must be in the format: **PnYnMnDTnHnMnS**. | Optional |
-| TravellerMix | CheckAvailabilityRequest | Root XML element that contains the details of the passenger types to query for inventory | Optional |
-| PickupLocation | CheckAvailabilityRequest | Root node for the pickup location| |
-| SupplierPickupCode | PickupLocation | The pickup location ID, which is returned as part of the ActivityListRequest | Optional, but required for all transportation based supplier products |
-| DropoffLocation | CheckAvailabilityRequest | Root node for the dropoff location | |
-| SupplierPickupCode | PickupLocation | The pickup location ID, which is returned as part of the ActivytListRequest | Optional, but required for all transportation based supplier product |
-| Senior | TravellerMix | | Optional |
-| Adult | TravellerMix | | Optional|
-| Student | TravellerMix | | Optional |
-| Children | TravellerMix | | Optional |
-| Infant | TravellerMix | | Optional |
-| Total | TravellerMix | | Optional |
-
-
-**Note:** _Requests for availability can be requested no further than 120 days out. Availability for historical dates are not permitted. Transportation based supplier products may require that you send through the proper pickup and dropoff supplier location codes._
-
-## Check Availability Response
-
-> Example Single Date Response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<CheckAvailabilityResponse  xmlns="https://api.zaui.io/api/01">
-<ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
-  <ResellerId>2005</ResellerId>
-  <SupplierId>20</SupplierId>
-  <ExternalReference>10051374722992616</ExternalReference>
-  <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
-  <RequestStatus>
-    <Status>SUCCESS</Status>
-  </RequestStatus>
-  <SupplierProductCode>ACT_1765</SupplierProductCode>
-  <TourAvailability>
-  <Date>2015-10-31</Date>
-  <TourOptions>
-    <SupplierOptionCode>09:00:00</SupplierOptionCode>
-    <SupplierOptionName>Zip line 9:00 am</SupplierOptionName>
-    <TourDepartureTime>09:00:00</TourDepartureTime>
-    <TourDuration>PT1H</TourDuration>
-  </TourOptions>
-  <AvailabilityStatus>
-    <Status>AVAILABLE</Status>
-  </AvailabilityStatus>
-  </TourAvailability>
-    <TravellerMixAvailability>
-      <Senior>TRUE</Senior>
-      <Adult>TRUE</Adult>
-      <Student>TRUE</Student>
-      <Child>TRUE</Child>
-      <Infant>FALSE</Infant>
-    </TravellerMixAvailability>
-</CheckAvailabilityResponse>
-```
-
->Date Range Example response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<CheckAvailabilityResponse  xmlns="https://api.zaui.io/api/01">
-  <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
-  <ResellerId>2005</ResellerId>
-  <SupplierId>20</SupplierId>
-  <ExternalReference>10051374722992616</ExternalReference>
-<Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
-  <RequestStatus>
-    <Status>SUCCESS</Status>
-  </RequestStatus>
-  <SupplierProductCode>ACT_1765</SupplierProductCode>
-  <TourAvailability>
-    <Date>2015-10-30</Date>
-    <TourOptions>
-<SupplierOptionCode>09:00:00</SupplierOptionCode> <SupplierOptionName>Zip line at 9:00 am</SupplierOptionName> <TourDepartureTime>09:00:00</TourDepartureTime> <TourDuration></TourDuration>
-    </TourOptions>
-    <AvailabilityStatus>
-      <Status>AVAILABLE</Status>
-    </AvailabilityStatus>
-  </TourAvailability>
-  <TourAvailability>
-    <Date>2015-10-31</Date>
-    <TourOptions>
-<SupplierOptionCode>ACT_1765</SupplierOptionCode> <SupplierOptionName>Zip Line at 9:00 am</SupplierOptionName> <TourDepartureTime>09:00:00</TourDepartureTime> <TourDuration></TourDuration>
-    </TourOptions>
-    <AvailabilityStatus>
-      <Status>UNAVAILABLE</Status>
-      <UnavailabilityReason>SOLD_OUT</UnavailabilityReason>
-    </AvailabilityStatus>
- </TourAvailability>
-</CheckAvailabilityResponse>
-```
-
-| XML Node | Parent Node | Description|
-| -------- | ----------- | ---------- |
-| CheckAvailabilityResponse || Root XML Node|
-| APIKey | CheckAvailabilityResponse | Your unique API KEY |
-| ResellerId | CheckAvailabilityResponse | |
-| SupplierID | CheckAvailabilityResponse | String representing the unique supplier ID within the Zaui Marketplace|
-| External Reference | CheckAvailabilityResponse | String representing a unique transaction ID. Used to identify your original request. |
-| TimeStamp | CheckAvailabilityResponse | Time of creation of request: <br> YYYY-MM-DDTHH:MM:SS.SSSZ(in utc time) or YYYY-MM-DDTHH:MM:SS.SSS[+/-]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04-28T13:10:12.123+10:00 |
-| RequestStatus | CheckAvailabilityResponse | Request status root XML element |
-| Status | RequestStatus | Status value for the request. Values are:<br> **SUCCESS** <br>**ERROR** |
-| Error | Request Status | Root node for the error details on a non successful request. |
-| ErrorCode | Error | String with error code. |
-| ErrorMessage | Error | String with the error message |
-| ErrorDetails | Error | String with additional details, and recommendation on error |
-| SupplierProductCode | CheckAvailabilityResponse | Unique supplier product code |
-| TourAvailability | CheckAvailabilityResponse | Root node with the tour availability |
-| Date | TourAvailability | Date for which the tour is available, in the format YYYY-MM-DD |
-| TourOptions | TourAvailability | Tour options root node |
-| SupplierOptionCode | TourOptions | String containing the unique supplier option code |
-| SupplierOptionName | TourOptions | String containing the supplier option name |
-| TourDepartureTime | TourOptions | Time of the tour departure, in the format HH:MM:SS |
-| TourDuration | TourOptions | Duration for the tour option, in the format **PnYnMnDTnHnMnS**. Example: PT300s (5 mins). |
-| AvailabilityStatus | CheckAvailabilityResponse | Root element for availability status |
-| Status | Availability Status | Status of the availability request. Values are: <br> AVAILABLE - when available for the given Date and TravellerMix. <br> UNAVAILABLE - when not available for the given Date and TravellerMix. |
-| UnavailabilityReason | AvailabilityStatus | Reason why the requested activity is NOT available. <br> Valid values: <br> SOLD_OUT <br> BLOCKED_OUT - when the product (Tour)/ product option (Tour Option) has been blocked out (not taking place on this date). <br> INACTIVE - when the product (Tour)/ product option (Tour Option) is no longer active. Recommend a ActivityListRequest to refresh the supplier product codes <br> PAST_CUTOFF_DATE - when the booking cut-off date has been reach for this product (Tour)/ product option (Tour Option). <br> TRAVELLER_MISMATCH - when the required combination of travellers for this product (Tour)/ product option (Tour Option) is not met. |
-| TravellerMixAvailability | CheckAvailabilityResponse | Guest mix availability root element |
-| Senior | TravellerMixAvailability| TRUE or FALSE |
-|Adult | TravellerMixAvailability | TRUE or FALSE |
-| Student | TravellerMixAvailability | TRUE or FALSE |
-| Child | TravellerMixAvailability | TRUE or FALSE|
-| Infant | TravellerMixAvailability | TRUE or FALSE|
-
-## Batch Check Availability Request
-
-> Example Single Day Request
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<BatchCheckAvailabilityRequest  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <StartDate>2015-10-1</StartDate>
- <SupplierProductCode>ACT_1765</SupplierProductCode>
-</BatchCheckAvailabilityRequest>
-```
-
-> Example Multi Date Request
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<BatchCheckAvailabilityRequest  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
-<StartDate>2015-10-1</StartDate>
-<EndDate>2015-10-31</EndDate>
-<SupplierProductCode>ACT_1765</SupplierProductCode>
-</BatchCheckAvailabilityRequest>
-```
-
-The batch availability request allows you to determine availability in large scale. This API call is designed to enable fetching all activity and activity options for a single date or date range. When a single activity is provided, then the API will return the activity availability for the date or date range requested. When a activity is not provided, then the API will return all activities and options for the date or date range requested.
-
-| XML Node | Parent Node | Description | Optionality |
-| -------- | ----------- | ------------------------ | ----------- |
-| BatchCheckAvailabilityRequest || Root XML node | Mandatory |
-| ApiKey | BatchCheckAvailabilityRequest | Your unique API KEY | Mandatory |
-| ResellerId | BatchCheckAvailabilityRequest | | Mandatory |
-| SupplierId | BatchCheckAvailabilityRequest | String representing the unique supplier ID within the Zaui Marketplace | Mandatory |
-| ExternalReference | BatchCheckAvailabilityRequest | String representing a unique transaction ID. Used to identify your original request. | Optional |
-| TimeStamp | BatchCheckAvailabilityRequest | Time of creation of request YYYY-MM-DDTHH:MM:SS.SS SZ(in utc time) or YYYY-MM-DDTHH:MM:SS.SS S[+/-]HH:MM Example: <br> 2013-04- 28T13:10:12.123Z (utc time) <br> 2013-04- 28T13:10:12.123+10:00 | Mandatory |
-| StartDate | BatchCheckAvailabilityRequest | Date for which to check. Date format: YYYY-MM-DD | Mandatory |
-| EndDate | BatchCheckAvailabilityRequest | Date for which to end checking. Date format: YYYY-MM-DD | Optional |
-| SupplierProductCode | BatchCheckAvailabilityRequest | The unique product code for the supplier | Mandatory |
-
-
-**Note:** _Requests for batch availability can be requested no further than 120 days out. Batch Availability for historical dates are not permitted.
-Dates ranges between the StartDate and EndDate cannot be more then 120 days._
-
-## Batch Check Availability Response
-
-> Example Single Date Response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<BatchCheckAvailabilityResponse  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <StartDate>2015-10-1</StartDate>
- <SupplierProductCode>ACT_1765</SupplierProductCode>
- <RequestStatus>
-   <Status>SUCCESS</Status>
-</RequestStatus>
-<BatchTourAvailability>
-  <Date>2015-10-1</Date>
-  <TourOptions>
-          <SupplierOptionCode>09:00:00</SupplierOptionCode>
-          <SupplierOptionName>Zip Line 9:00 am</SupplierOptionName>
-          <TourDepartureTime>09:00:00</TourDepartureTime>
-          <TourDuration>PT1Hn</TourDuration>
-   </TourOptions>
-  <AvailabilityStatus>
-         <Status>UNAVAILABLE</Status>
-         <UnavailabilityReason>SOLD_OUT</UnavailabilityReason>
-  </AvailabilityStatus>
-</BatchTourAvailability>
-<BatchTourAvailability>
-   <Date>2015-10-1</Date>
-   <TourOptions>
-           <SupplierOptionCode>10:00:00</SupplierOptionCode>
-           <SupplierOptionName>Zip Line 10:00 am</SupplierOptionName>
-           <TourDepartureTime>10:00:00</TourDepartureTime>
-           <TourDuration>PT1Hn</TourDuration>
-    </TourOptions>
-   <AvailabilityStatus>
-           <Status>AVAILABLE</Status>
-   </AvailabilityStatus>
-</BatchTourAvailability>
-</BatchCheckAvailabilityResponse>
-
-```
-
-> Example Date Range Response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<BatchCheckAvailabilityResponse  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <StartDate>2015-10-1</StartDate>
- <SupplierProductCode>ACT_1765</SupplierProductCode>
- <RequestStatus>
-         <Status>SUCCESS</Status>
- </RequestStatus>
- <BatchTourAvailability>
-         <Date>2015-10-30</Date>
-<TourOptions>
-                <SupplierOptionCode>09:00:00</SupplierOptionCode>
-                <SupplierOptionName>Zip line 9:00 am</SupplierOptionName>
-                <TourDepartureTime>09:00:00</TourDepartureTime>
-                <TourDuration>PT1Hn</TourDuration>
-                </TourOptions>
-        <AvailabilityStatus>
-               <Status>UNAVAILABLE</Status>
-               <UnavailabilityReason>SOLD_OUT</UnavailabilityReason>
-        </AvailabilityStatus>
-</BatchTourAvailability>
-<BatchTourAvailability>
-        <Date>2015-10-31</Date>
-        <TourOptions>
-                <SupplierOptionCode>09:00:00</SupplierOptionCode>
-                <SupplierOptionName>Zip Line 9:00 am</SupplierOptionName>
-                <TourDepartureTime>09:00:00</TourDepartureTime>
-                <TourDuration>PT1Hn</TourDuration>
-                </TourOptions>
-        <AvailabilityStatus>
-               <Status>UNAVAILABLE</Status>
-               <UnavailabilityReason>SOLD_OUT</UnavailabilityReason>
-        </AvailabilityStatus>
-</BatchTourAvailability>
-</BatchCheckAvailabilityResponse>
-```
-
-| XML Node | Parent Node | Description |
-| -------- | ----------- | ----------- |
-| BatchCheckAvailabilityResponse | | Root XML node |
-| ApiKey | BatchCheckAvailabilityResponse | Your unique API KEY |
-| ResellerId | BatchCheckAvailabilityResponse | |
-| SupplierId | BatchCheckAvailabilityResponse | | String representing the unique supplier ID within the Zaui Marketplace |
-| ExternalReference | BatchCheckAvailabilityResponse | String representing a unique transaction ID. Used to identify your original request. |
-| TimeStamp | BatchCheckAvailabilityResponse | Time of creation of request YYYY-MM- DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 |
-| RequestStatus | BatchCheckAvailabilityResponse | Request status root XML element |
-| Status | RequestStatus | Status value for the request. Values are: <br> **SUCCESS** <br> **ERROR** |
-| Error | RequestStatus | Root node for the error details on a non- successful request |
-| ErrorCode | Error | String with the error code |
-| ErrorMessage | Error | String with the error message |
-| ErrorDetails | Error | String with additional details, and recommendation on error |
-| BatchTourAvailability | BatchCheckAvailabilityResponse | Availability root node. |
-| Date | BatchTourAvailability | Date for which the availability is supplied in the format YYYY- MM-DD |
-| SupplierProductCode | BatchTourAvailability | Unique supplier product code |
-| TourOptions | BatchTourAvailability | Tour options root node |
-| SupplierOptionCode | TourOptions | String containing the unique supplier option code |
-| TourDepartureTime | TourOptions | Time of the tour departure, in the format HH:MM:SS |
-| TourDuration | TourOptions | Duration for the tour option, in the format of **PnYnMnDTnHnMnS**. Example: PT300S (5 minutes).|
-| AvailabilityStatus | BatchTourAvailability | Root element for availability status |
-| Status | AvailabilityStatus | Status of the availability request. Values are: <br> **AVAILABLE** - when available for the given Date and TravellerMix. <br> **UNAVAILABLE** - when not available for the given Date and TravellerMix. |
-| UnavailabilityReason | AvailabilityStatus | Reason why the requested activity is NOT available. Valid values: <br> **SOLD_OUT** <br> **BLOCKED_OUT** - when the product (Tour)/ product option (Tour Option) has been blocked out (not taking place on this date). <br> **INACTIVE** - when the product (Tour)/ product option (Tour Option) is no longer active. Recommend a ActivityListRequest to refresh the supplier product codes <br> **PAST_CUTOFF_DATE** - when the booking cut-off date has been reach for this product (Tour)/ product option (Tour Option). <br> **TRAVELLER_MISMATCH** - when the required combination of travellers for this product (Tour)/ product option (Tour Option) is not met. |
-| TravellerMixAvailability | BatchTourAvailability | Guest mix availability root element |
-| Senior | TravellerMixAvailability | TRUE or FALSE |
-| Adult | TravellerMixAvailability| TRUE or FALSE |
-| Student | TravellerMixAvailability | TRUE or FALSE|
-| Child | TravellerMixAvailability | TRUE or FALSE|
-| Infant | TravellerMixAvailability | TRUE or FALSE |
-
-## Booking Create Response
-
-> Example Booking Response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<BookingCreateResponse  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
-<Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <RequestStatus>
-    <Status>SUCCESS</Status>
- </RequestStatus>
- <BookingReference>999999999</BookingReference>
- <TransactionStatus>
-    <Status>CONFIRMED</Status>
- </TransactionStatus>
- <SupplierConfirmationNumber>1635213</SupplierConfirmationNumber>
-</BookingCreateResponse>
-```
-
-| XML Node | Parent Node | Description |
-| -------- | ----------- | ----------- |
-| BookingCreateResponse | | Root node |
-| ApiKey | BookingCreateResponse | Your unique API KEY |
-| ResellerId | BookingCreateResponse | |
-| SupplierId | BookingCreateResponse | |
-| ExternalReference | BookingCreateResponse | String representing a unique transaction ID. Used to identify your original request. |
-| TimeStamp | BookingCreateResponse | Time of creation of request YYYY-MM- DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 |
-| RequestStatus | BookingCreateResponse | Request status root XML element |
-| Status | RequestStatus | Status value for the request. Values are: <br> **SUCCESS** <br> **ERROR** |
-| Error | RequestStatus | Root node for the error details on a non- successful request |
-| ErrorCode | Error | String with the error code |
-| ErrorMessage | Error | String with the error message |
-| ErrorDetails | Error | String with additional details, and recommendation on error |
-| BookingReference | BookingCreateResponse | String containing the unique booking reference from your system |
-| TransactionStatus | BookingCreateResponse | Root node that holds data on the transaction |
-| Status | TransactionStatus | Status of the transition. Options are: <br> **CONFIRMED** <br> **REJECTED** |
-| RejectionReasonDetails | TransactionStatus | Extended details on the transaction rejection |
-| RejectionReason | TransactionStatus | Reason transaction was rejected. Options are: <br> **NOT_OPERATING** - Tour is not operating on the date for which the booking was made. <br> **OTHER** - Any other reason. Details must be provided in Rejection- ReasonDetails. |
-| SupplierConfirmationNumber | BookingCreateResponse | String holding the unique supplier confirmation number. This number must be used on subsequent booking API calls, such as amend, cancel. |
-| SupplierConfirmationPromotionCode| BookingCreateResponse | Auto generated promotion code, that provides an online redemption mechanism with the Suppliers system |
-
-## Booking Update Request
-
-> Example Update Request
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<BookingUpdateRequest  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
-  <BookingReference>999999999</BookingReference>
-  <TravelDate>2015-12-10</TravelDate>
-  <SupplierProductCode>ACT_1765</SupplierProductCode>
-  <TourOptions>
-    <SupplierOptionCode>09:00:00</SupplierOptionCode>
-    <SupplierOptionName>Zip line 9:00 am</SupplierOptionName>
-    <TourDepartureTime>09:00:00</TourDepartureTime>
-    <TourDuration>PT1H </TourDuration>
-  </TourOptions>
-  <Inclusions>
-    <Inclusion>Bottle of Champagne</Inclusion>
-<Inclusion>Hotel Pickup</Inclusion>
-</Inclusions>
-<Traveller>
-  <TravellerIdentifier>1</TravellerIdentifier>
-  <TravellerTitle>Mr.</TravellerTitle>
-  <GivenName>Phil</GivenName>
-  <Surname>Dover</Surname>
-  <AgeBand>ADULT</AgeBand>
-  <LeadTraveller>true</LeadTraveller>
-</Traveller>
-<TravellerMix>
-  <Senior>0</Senior>
-    <Adult>1</Adult>
-   <Child>0</Child>
-   <Student>0</Student>
-   <Infant>0</Infant>
-   <Total>1</Total>
- </TravellerMix>
-<RequiredInfo>
- <Question>
-   <QuestionText>Passport No.</QuestionText>
-   <QuestionText>L99999</QuestionText>
- </Question>
-</RequiredInfo>
-<SpecialRequirement>Vegetarian Meal</SpecialRequirement>
-<PickupPoint>Hilton</PickupPoint>
-<SupplierNote>Change to number of travellers. Customer reimbursed.</SupplierNote>
-<AdditionalRemarks>
-         <Remark>Additional charges for large luggage may apply. To be advised at pickup.</Remark>
- </AdditionalRemarks>
- <ContactDetail>
-    <ContactType>MOBILE</ContactType>
-    <ContactName>Phil Dover</ContactName>
-    <ContactValue>US+1 999999999</ContactValue>
- </ContactDetail>
-<PickupLocation>
-         <SupplierPickupCode>209</SupplierPickupCode>
- </PickupLocation>
- <DropoffLocation>
-         <SupplierDropoffCode>219</SupplierDropoffCode>
- </DropoffLocation>
- <SupplierConfirmationNumber>125467</SupplierConfirmationNumber>
-</BookingUpdateRequest>
-```
-
-The booking amendment request allows you to submit amendments to existing bookings created through your implementation in the supplier system. To request a booking to be changed, your request must submit through a valid booking reference number, and that booking must have been originally created through your implementation. Each booking amendment is for a single booking only.
-
-| XML Node | Parent Node | Description | Optionality |
-| -------- | ----------- | ----------- | ----------- |
-| BookingUpdateRequest | | Root XML node | Mandatory |
-| ApiKey | BookingUpdateRequest | Your unique API KEY | Mandatory |
-| ResellerId | BookingUpdateRequest| | Mandatory |
-| SupplierId | BookingUpdateRequest | String representing the unique supplier ID within the Zaui Marketplace | Mandatory |
-| ExternalReference | BookingUpdateRequest | String representing a unique transaction ID. Used to identify your original request. | Optional |
-| TimeStamp | BookingUpdateRequest | Time of creation of request YYYY-MM-DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 | Mandatory |
-| BookingReference | BookingUpdateRequest | Unique booking reference | Mandatory |
-| TravelDate | BookingUpdateRequest | Date of travel for the itinerary item. Date must be in the format YYYY-MM-DD | Mandatory |
-| SupplierProductCode | BookingUpdateRequest | The unique product code for the supplier | Mandatory |
-| TourOptions | BookingUpdateRequest | Root tour options XML node | Optional |
-| SupplierOptionCode | TourOptions | Unique option code | Optional |
-| SupplierOptionName | TourOptions| | Optional |
-| TourDepartureTime | TourOptions | Time of activity departure. Must be in the format of HH:MM:SS | Optional |
-| TourDuration | TourOptions | Duration of activity option. Must be in the format of **PnYnMnDTnHnMnS**. | Optional |
-| Traveller | BookingUpdateRequest | Root XML element describing the customer details | Mandatory |
-| travellerIdentifier | Traveller | Unique integer per traveller for the booking | Mandatory |
-| GivenName | Traveller | Guest first name | Mandatory |
-| Surname | Traveller | Guest last name | Mandatory |
-| AgeBand | Traveller | Age band for the traveller. Valid values are: <br> • Senior <br> • Adult <br> • Student <br> • Child <br> • Infant | Mandatory |
-| TravellerMix | BookingUpdateRequest | Root XML element describing the number of travellers | Optional |
-| Senior | TravellerMix | | Optional |
-| Adult | TravellerMix | | Optional |
-| Student| TravellerMix| | Optional |
-| Child | TravellerMix | | Optional |
-| Infant | TravellerMix | | Optional |
-| Total | TravellerMix | | Optional |
-| RequiredInfo | BookingUpdateRequest | Root XML node that will hold additional booking questions/answers for the booking | Optional |
-| Question | RequiredInfo | String holding the question | Optional |
-| QuestionText | RequiredInfo | String holding the question text | Optional |
-| QuestionAnswer | RequiredInfo | Answer text supplied | Optional |
-| SpecialRequirement | BookingUpdateRequest | String wit any special requirements from the customer | Optional |
-| PickupPoint | BookingUpdateRequest | String value with the pickup point supplied | Optional |
-| SupplierNote | BookingUpdateRequest | String value with any supplier notes passed from your implementation | Optional |
-| AdditionalRemarks | BookingUpdateRequest| Root XML node with additional remarks | Optional |
-| Remark | AdditionalRemarks | String with the remark | Optional |
-| ContactDetail | BookingUpdateRequest | Root XML node holding customer contact details | Optional |
-| ContactType | ContactDetail | Type of contact. Options are: <br> • MOBILE <br> • EMAIL <br> • ALTERNATE <br> • NOT_CONTACTABLE | Optional |
-| ContactName | ContactDetail | String with name of contact | Optional |
-| ContactValue | ContactDetail | String with the contact information (name, email, phone..etc) | Optional |
-| PickupLocation | BookingRequest | Root node for the pickup location | |
-| SupplierPickupCode | PickupLocation | The pickup location ID, which is returned as part of the ActivityListRequest | Optional, but required for all transportation based supplier product |
-| DropoffLocation | BookingRequest | Root node for the dropoff location | |
-| SupplierDropoffCode | DropoffLocation | The dropoff location ID | Optional but required for all transportation based supplier product |
-| SupplierConfirmationNumber | BookingUpdateRequest | String that holds the unique supplier confirmation number. The SupplierConfirmationNumber is used in all subsequent request pertaining to he booking, and must be stored in your implementation. | Mandatory |
-
-## Booking Update Response
-
-
-> Example Booking Update Response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<BookingUpdateResponse  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <RequestStatus>
-    <Status>SUCCESS</Status>
- </RequestStatus>
- <BookingReference>999999999</BookingReference>
- <TransactionStatus>
-    <Status>CONFIRMED</Status>
- </TransactionStatus>
- <SupplierConfirmationNumber>1235458</SupplierConfirmationNumber>
-</BookingUpdateResponse>
-```
-
-| XML Node | Parent Node | Description |
-| -------- | ----------- | ----------- |
-| BookingUpdateResponse | | Root XML node |
-| ApiKey | BookingUpdateResponse | Your unique API KEY |
-| ResellerId | BookingUpdateResponse | |
-| SupplierId | BookingUpdateResponse | |
-| ExternalReference | BookingUpdateResponse | String representing a unique transaction ID. Used to identify your original request. |
-| TimeStamp | BookingUpdateResponse | Time of creation of request YYYY-MM- DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 |
-| RequestStatus | BookingUpdateResponse | Request status root XML element |
-| Status | RequestStatus | Status value for the request. Values are: <br> **SUCCESS**<br> **ERROR** |
-| Error | RequestStatus | Root node for the error details on a non-successful request |
-| ErrorCode | Error | String with the error code |
-| ErrorMessage | Error | String with the error message |
-| ErrorDetails | Error | String with additional details, and recommendation on error |
-| BookingReference | BookingUpdateResponse | String containing the unique booking reference from your system |
-| TransactionStatus | BookingUpdateResponse | Root node that holds data on the transaction |
-| Status | TransactionStatus | Status of the transition. Options are: <br>**CONFIRMED**<br>**REJECTED** |
-| RejectionReasonDetails | TransactionStatus | Extended details on the transaction rejection |
-| RejectionReason | TransactionStatus | Reason transaction was rejected. Options are: <br> **NOT_OPERATING** – Activity not offered on requested date <br> **OTHER** - Any other reason. Details must be provided in RejectionReasonDetails. |
-| SupplierConfirmationNumber | BookingUpdateResponse | String value of the unique supplier confirmation number. This supplier confirmation number is used in all subsequent booking requests to reference the supplier booking number. <br> **NOTE:** the supplier confirmation number must be the number of the original booking request. |
-
-## Booking Cancel Request
-
-> Example Booking Cancel Request
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<BookingUpdateResponse  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <RequestStatus>
-    <Status>SUCCESS</Status>
- </RequestStatus>
- <BookingReference>999999999</BookingReference>
- <TransactionStatus>
-    <Status>CONFIRMED</Status>
- </TransactionStatus>
- <SupplierConfirmationNumber>1235458</SupplierConfirmationNumber>
-</BookingUpdateResponse>
-```
-
-The booking cancellation request allows your implementation to cancel previously made bookings, successfully created through your implementation, directly into the supplier system. The API allows cancellation of the booking.
-
-| XML Node | Parent Node | Description | Optionality |
-| -------- | ----------- | ----------- | ----------- |
-| BookingCancelRequest | | Root XML node | Mandatory |
-| ApiKey | BookingCancelRequest | Your unique API KEY | Mandatory |
-| ResellerId | BookingCancelRequest | | Mandatory |
-| SupplierId | BookingCancelRequest | String representing the unique supplier ID within the Zaui Marketplace | Mandatory |
-| ExternalReference | BookingCancelRequest | String representing a unique transaction ID. Used to identify your original request. | Optional |
-| TimeStamp | BookingCancelRequest | Time of creation of request YYYY-MM- DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 | Mandatory |
-| BookingReference | BookingCancelRequest | Unique booking reference | Mandatory |
-| SupplierConfimationNumber | BookingCancelRequest | Supplier confirmation number | Mandatory |
-| CancelDate | BookingCancelRequest | Date the cancellation was made. Must be in the format YYYY-MM- DD
-| Mandatory |
-| Author | BookingCancelRequest | String holding the name of person whom made the cancellation | Mandatory |
-| Reason | BookingCancelRequest | String holding the reason for cancellation | Mandatory |
-| SupplierNote | BookingCancelRequest | String holding any additional notes about the cancellation | Mandatory |
-
-## Booking Cancel Response
-
-> Example Booking Cancel Response
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<BookingCancelResponse  xmlns="https://api.zaui.io/api/01">
- <ApiKey>cdqu60CykKeca1Qc000VXwgchV000L2fNOOf0bv9gPp</ApiKey>
- <ResellerId>2005</ResellerId>
- <SupplierId>200</SupplierId>
- <ExternalReference>10051374722992616</ExternalReference>
- <Timestamp>2015-07-25T13:29:52.616+10:00</Timestamp>
- <RequestStatus>
-   <Status>SUCCESS</Status>
- </RequestStatus>
- <BookingReference>999999999</BookingReference>
- <SupplierConfirmationNumber>1236578</SupplierConfirmationNumber>
-<SupplierCancellationNumber>CANCEL78910</SupplierCancellationNumber>
- <TransactionStatus>
-   <Status>CONFIRMED</Status>
- </TransactionStatus>
-</BookingCancelResponse>
-```
-| XML Node | Parent Node | Description |
-| -------- | ----------- | ----------- |
-| BookingCancelResponse | | Root node |
-| ApiKey | BookingCancelResponse | Your unique API KEY |
-| ResellerId | BookingCancelResponse | |
-| SupplierId | BookingCancelResponse | |
-| ExternalReference | BookingCancelResponse | String representing a unique transaction ID. Used to identify your original request. |
-| TimeStamp | BookingCancelResponse | Time of creation of request YYYY-MM- DD HH:MM:SS.SSSZ(in utc time) or YYYY-MM-DD HH:MM:SS.SSS[+/- ]HH:MM Example: 2013-04-28T13:10:12.123Z (utc time) 2013-04- 28T13:10:12.123+10:00 |
-| RequestStatus | BookingCancelResponse | Request status root XML element |
-| Status | RequestStatus | Status value for the request. Values are: <br> **SUCCESS**<br>**ERROR** |
-| Error | RequestStatus | Root node for the error details on a non-successful request |
-| ErrorCode | Error | String with the error code |
-| ErrorMessage | Error | String with the error message |
-| ErrorDetails | Error | String with additional details, and recommendation on error |
-| BookingReference | BookingCancelResponse | String containing the unique booking reference from your system. |
-| SupplierConfirmationNumber | BookingCancelResponse| String holding the original unique supplier confirmation number.  |
-| SupplierCancellationNumber | BookingCancelResponse | String holding the unique cancellation number |
-| TransactionStatus | BookingCancelResponse | Root node that holds data on the transaction |
-| Status | TransactionStatus | Status of the transition. Options are:<br>**CONFIRMED**<br> **REJECTED** |
-| RejectionReasonDetails | TransactionStatus | Extended details on the transaction rejection |
-| RejectionReason | TransactionStatus | Reason transaction was rejected. Options are: <br> **PAST_CANCEL_DATE** - Allowed cancellation date is in the past. <br> **PAST_TOUR_DATE** - Tour date is in the past.<br> **TOUR_REDEEMED** - Tour has al- ready been redeemed.<br> **OTHER** - Any other reason. Details must be provided in RejectionReasonDetails. |
-
-# HTTP Status Codes
-
-| Code | Reason | Description | Recommended Action |
-| ---- | ------ | ----------- | ------------------ |
-| 200 | Status OK | Request executed without error | None |
-| 400 | Bad Request | Invalid Request | Check for malformed XML |
-| 401 | Unauthorized | Authentication for the request has failed | Check the required authentication requirements. |
-| 404 | Not Found | Requested API routine is not an implemented method | Check the naming of the inbound request |
-| 503 | Unavailable | Throttle rate limit has been exceeded | Retry using exponential backoff. You need to slow down the rate at which you are sending requests. |
+# Goals
+
+The misconception with Goals is that they are for tracking pageviews and visitors to see how successful your site is and that is wrong. Unlike filters, Goals are things that get triggered when a user reaches a certain point on your site. This of them like checkpoints in a race. Just like finishing a race can be hard, it can be equally hard to get a customer from the start (your landing page) to the end (processed cart) and using Goals can provide insight into where you are losing them on their way to that end.
+
+GA has 5 different types of Goals you can configure:
+
+
+## Destination
+
+A user has reached a certain page on your site.
+
+
+## Duration
+
+A user has been on your site for a set amount of time. You can use past GA data to see how long successful conversions spent on your site to set this goal. As an example, the majority of people needed at least 6min27sec from landing page to cart so you create a goal saying you want to know how many people hit 6min30sec.
+
+## Pages per Session
+
+How many pages does a user need to get from intro to your site to checkout? Are your products shown on a single page or separate? Give some room for browsing but keep it reasonable.
+
+## Events
+
+Events are the most useful and in turn hardest to configure. It measures how a user interacts with the site after the page loads so that means you will have to make some changes to how you track your site.
+
+## Smart Goals
+
+Smart Goals are for people using Google Adwords who have yet to set up goal tracking. Smart Goals uses the data from thousands of other sites to determine whether there was user engagement.
+
+## Setup
+
+Goals are a key asset in your GA toolbox as they help classify each session into two different groups: Converted & Non-Converted. For example, anybody can go to your landing page and that is good information to know, but it would be better to know how many people went to your landing page and watched the promo video you have there for your Zipline tours.
+
+Goals help answer the question of “During this session, what did specific actions did the user make at least once?”
+
+Setting up Goals is similar to filters.
+
+To set up go to:
+<br>
+1. Admin -> View -> Goal
+<br>
+2. Click + New Goal
+<br>
+3. Follow the template instructions for Goals or create a Custom goal
+
+### For Zaui a key goal to have is the following:
+
+1. Goal Name:  Zaui Web Booking Engine
+2. Goal Type:  URL Destination
+3. Under Goal Details
+4. Match Type:  Regular Expression Match
+5. Goal URL:  (page=Confirmation)
+6. Goal Value: 0.0
+7. Toggle Goal Funnel
+8. Name: Zaui Web Engine - Home Page
+^/modules/webBooking/index\.php$|(^/modules/webBooking/$)
+9. Zaui Web Engine - Activity/Product Page
+(action=Details)
+10. Zaui Web Engine - Payment Page
+(action=Contents)  
+
+# Funnel
+A goal funnel is a path for the user to take to reach the final goal for example:
+
+Landing page -> Testimonials -> Products Page -> Cart -> Confirmation
+
+Funnels are used to track how far along this path that they get so that you can look into why we are losing them at Testimonials or Products Page. Use this tool to help dig into your analysis by visualizing yourself how you want the user to view your site to get the most sales and then build variations of those Goal Funnels. Keep in mind that you can have max 20 Goals per View, which is more than what you should need but it is always good to remember, less is more.
+
+# UTM Url Codes
+There are many reasons why GA can’t track the user especially where they came from. For example if the user comes from a bookmarked link, email link inside a desktop app, going from a HTTPS domain to a HTTP domain, ad blockers preventing javascript and more. Google then declares all of this “Direct Traffic”
+
+The best way to measure campaigns and ensure that all of your traffic is getting triggered by GA is to use UTM Url Codes. Google has created a tool to help build your URLs that adds tracking code directly into the url and so when the user clicks that link GA knows what it is. The best part you can have multiple different ones and name them uniquely. This means that when you have a email campaign or banner ads or facebook promotion you can have unique links so you can see what the most effective tool is.
+
+<a href="https://ga-dev-tools.appspot.com/campaign-url-builder/">Go to Google URL Builder Here</a>
+
+All of your links for sharing should have a UTM code for best accuracy.
+
+# Common issue with GA & Zaui
+
+## Higher Revenue in GA vs Zaui
+One big thing we hear from people regarding GA vs Zaui is that their revenue is often higher in GA than it is in Zaui. This is due to the fact that when there is a cancellation in Zaui the data isn’t sent back to GA to adjust the revenue column.
+
+## Lower Revenue in GA vs Zaui
+
+It’s not uncommon for some transactions to be missing from Google Analytics.
+
+In general, analytics should track most transactions.  Some potential reasons for these can include:
+
+1. lack of Javascript support on customers browser, or mobile device
+<br>
+2. customers abandoning their transaction, after credit card payment, but before the system has completed sending the transaction information to Google.
+
+If you are having further issues with your Google Analytics Account, <a href="https://blog.kissmetrics.com/google-analytics-data-errors/">KissMetric</a> has a great guide on the top 29 issues, causes and fixes for them.
+
+# Further Learning
+This is just a scratch in the ground into the deep deep world that Google Analytics can be and is just designed to help get a basic setup for GA going for you in combination with Zaui.
+
+## Recommendations
+
+<a href="https://analytics.google.com/analytics/academy/course/6">Google Analytics for Beginners</a> - Google Analytics Academy Course (1 hour)
+<br>
+<a href="https://analytics.google.com/analytics/academy/course/7">Advanced Google Analytics</a> - Google Analytics Academy Course (1 hour)
+<br>
+<a href="https://analytics.google.com/analytics/academy/course/3">eCommerce Analytics</a> - Google Analytics Academy Course (1 hour)
+<br>
+<a href="https://www.lunametrics.com/services/google-analytics/">Luna Metrics</a> - An Analytics and SEO training and consulting company with excellent blog articles on Google Analytics
+
+# Bibliography
+
+1. “Advanced Google Analytics.” Google, Google, analytics.google.com/analytics/academy/course/7.
+2. Agius, Aaron. “A Step-by-Step Guide to Using Google Analytics' Enhanced Ecommerce Features.” A Deep Dive Into Facebook Advertising - Learn How To Make It Work For Your Business!, blog.kissmetrics.com/google-analytics-enhanced-ecommerce-features/.
+3. “Ecommerce Analytics.” Google, Google, analytics.google.com/analytics/academy/course/3.
+4. “Google Analytics for Beginners.” Google, Google, analytics.google.com/analytics/academy/course/6.
+5. “Google Tag Manager Fundamentals.” Google, Google, analytics.google.com/analytics/academy/course/5.
+6. Norris, Tyler. “Using Events as Goals in Google Analytics.” LunaMetrics, 26 Jan. 2018, www.lunametrics.com/blog/2018/01/16/events-goals-google-analytics/.
+7. Patel, Neil. “The Ultimate Guide to Google Analytics Resources for 2018.” A Deep Dive Into Facebook Advertising - Learn How To Make It Work For Your Business!, blog.kissmetrics.com/google-analytics-resources/.
+8. Sharif, Sayf. “Goals & Funnels in Google Analytics: Confusion and Workarounds.” LunaMetrics, 29 Jan. 2015, www.lunametrics.com/blog/2014/10/21/goals-funnels-confusion-google-analytics/.
+
+
 
 # Legal
 
